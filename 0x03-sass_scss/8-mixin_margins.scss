@@ -1,0 +1,12 @@
+/* assigns: */
+@mixin marginLR($left, $right) {
+  margin-left: $left;
+  margin-right: $right;
+}
+body {
+  @include marginLR(10px, 10px);
+}
+
+div {
+  @include marginLR(15px, 15px);
+}
