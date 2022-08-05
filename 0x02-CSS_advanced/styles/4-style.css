@@ -13,11 +13,11 @@
 
 html {
     scroll-behavior: smooth;
-    font-family: var(--font-family-base);
     }
 
 body {
     color: var(--text-color);
+    font-family: var(--font-family-base);
 }
 
 a {
