@@ -721,7 +721,7 @@ template{display:none}
   input[type="text"],
   input[type="email"],
   textarea {
-    positon: relative;
+    position: relative;
     width: 100%;
     padding: 1.2rem;
     line-height: 1;
