@@ -2,7 +2,7 @@
     display: flex;
     align-items: baseline;  
     align-content: center; 
-    width: 80%;
+    justify-content: center;
 }
 
 .box {
@@ -11,8 +11,6 @@
     justify-content: center;
     color: white;
     align-items: center;
-    
-    
 }
 
 .box1 {
