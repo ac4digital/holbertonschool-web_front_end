@@ -24,6 +24,7 @@
             function addNewMember(firstName, lastName) {
                 $("table tbody").append("<tr>");
                 $("tbody tr").last().append(`<td>${firstName}</td>`, `<td>${lastName}</td>`, `<td>(X)</td>`);
+                $("tbody tr td").last().addClass(firstName + lastName);
                 $("." + firstName + lastName).css("background-color", "orange");
                 $("." + firstName + lastName).click(function() {
                 $("." + firstName + lastName).parent().remove();                        
