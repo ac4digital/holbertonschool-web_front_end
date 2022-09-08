@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Task 6</title>
+        <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+
+    </head>
+
+    <body>
+        <script type="application/javascript">
+            function createFamilyTree() {
+                $("body").append("<table>");
+                $("table").append("<thead>", "<tbody>")
+                $("thead").append("<tr>");
+                $("tbody").append("<tr>");
+                $("tr").eq(0).append("<th>", "<th>");
+                $("tr th").eq(0).text("Firstname");
+                $("tr th").eq(1).text("Lastname");
+            }
+
+            function addNewMember(firstName, lastName, position) {
+                if (position == "before") {
+                    $("table tbody").prepend("<tr>");
+                    $("tbody tr").last().append(`<td>${firstName}</td>`, `<td>${lastName}</td>`, `<td>(X)</td>`);
+                    $("tbody tr td").last().addClass(firstName + lastName);
+ 
+                }
+                else {
+                    $("table tbody").append("<tr>");
+                    $("tbody tr").last().append(`<td>${firstName}</td>`, `<td>${lastName}</td>`, `<td>(X)</td>`);
+                    $("tbody tr td").last().addClass(firstName + lastName);
+
+                }
+                $("." + firstName + lastName).css("background-color", "orange");
+                $("." + firstName + lastName).click(function() {
+                $("." + firstName + lastName).parent().remove();                        
+                });
+            }
+
+            function createForm() {
+                $("body").prepend("<input type=\"text\">", "<input type=\"text\">", "<select>", "<input value=\"Submit\" type=\"submit\">");
+                $("input").first().addClass("firstName");
+                $("input").eq(1).addClass("lastName");
+                $("select").addClass("selection");
+                $(".selection").append("<option value=\"before\">Before</option>", "<option value=\"after\">After</option>");
+                $("input").last().click(function() {
+                    let pos = $(".selection option").filter(":selected").val();
+                    addNewMember($(".firstName").val(), $(".lastName").val(), pos);
+                    })               
+            }
+
+            createFamilyTree();
+            createForm();
+
+        </script>
+    </body>
+
+</html>
