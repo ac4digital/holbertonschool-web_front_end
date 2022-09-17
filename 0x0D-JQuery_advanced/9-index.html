@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Task 9</title>
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <style>
+            .loading {
+                opacity: 0.2;
+            } 
+        </style>
+    </head>
+
+    <body>
+        <script type="application/javascript">
+            $( document ).ready(function() {
+                function createSearchForm() {
+                    $("body").append("<input type=\"text\">", "<input type=\"submit\" value=\"Submit\">", "<ul class=\"list\">");
+                    $("input").last().addClass("submit");
+                    $(".submit").click(function() {
+                        let search = $("input").val();
+                        $(".list").empty();
+                        queryWikipedia(search);
+                    });
+                }
+                function addNewArticle(id, title, snippet) {
+                    let idArticle = Math.floor(Math.random() * Date.now());
+                    //let idArticle = Math.random();
+                    $(".list").append("<li>");
+                    $("li").last().addClass(`${idArticle}`);
+                    $(`.${idArticle}`).append("<p>", "<p>");
+                    $(`.${idArticle} p`).first().append(`<span>${id} - <b>${title}</b></span>`)
+                    $(`.${idArticle} p`).last().append(`${snippet}`);
+                }
+                function queryWikipedia(search) {
+                    $.ajax({
+                        type: "GET",
+                        url: `https://en.wikipedia.org/w/api.php?origin=*&action=query&list=search&srsearch=${search}&format=json&sroffset=${offset}`,
+                        beforeSend: function() {
+                            displayLoading(1);
+                        },
+                        success: function (res) {
+                            let resArr = res.query.search;
+                            for (let obj in resArr) {
+                                addNewArticle(resArr[obj].pageid, resArr[obj].title, resArr[obj].snippet);
+                            }
+                            //console.log(res);
+                            buildPagination(res.query.searchinfo.totalhits, 10, offset);
+                        },
+                        error: function() {
+                            console.log("Something went wrong.");
+                        },
+                        complete: function() {
+                            displayLoading(0);
+                        }
+                    })
+                }
+                function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
+                    $(".list").append("<div class=\"page\">");
+                    let pages = Math.floor(numberOfItems / itemsPerPage);
+                    if (pages > 100) {
+                        pages = 100;
+                    }
+                    for (let index = 0; index < pages; index++) {
+                        $(".page").append(`<span>${index}</span>`);
+                        $(".page span").last().addClass(`${index}`);
+                        $(".page span").css({"cursor": "pointer", "margin-left": "10px"});
+                    }
+                    $(`span.${currentOffset / 10}`).css("font-weight", "bold");
+                    $(".page span").click(function() {
+                        $(".list").first().empty();
+                        queryWikipedia($("input").eq(0).val(), this.className * 10);
+                    })
+                }
+                function displayLoading(loading) {
+                    if (loading) $(".list").wrap("<div class=\"loading\"></div>");
+                    else $(".list").unwrap();
+                }                
+                createSearchForm();
+            });
+        </script>
+    </body>
+
+</html>
